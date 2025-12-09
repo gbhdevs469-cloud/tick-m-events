@@ -1,0 +1,40 @@
+name: "CodeQL Analysis"
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 8 * * 6'  # Weekly on Saturday at 8 AM UTC
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    # Initialize CodeQL for JavaScript/TypeScript
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+        # Optional: Add queries for security
+        queries: security-extended,security-and-quality
+        
+    # For React/Node.js, you need to build dependencies
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v3
+    
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:${{matrix.language}}"

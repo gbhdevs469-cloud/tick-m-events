@@ -1,0 +1,73 @@
+name: Security Audit
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday at midnight
+
+jobs:
+  security-checks:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    # For React (client) dependencies
+    - name: Audit React dependencies
+      if: exists('client/package.json')
+      run: |
+        cd client
+        npm ci --audit=false
+        npm audit --audit-level=high
+      continue-on-error: true  # Don't fail the build for audit warnings
+    
+    # For Node.js (server) dependencies
+    - name: Audit Node.js dependencies
+      if: exists('server/package.json')
+      run: |
+        cd server
+        npm ci --audit=false
+        npm audit --audit-level=high
+      continue-on-error: true
+    
+    # Run npm audit on root if monorepo
+    - name: Audit root dependencies
+      if: exists('package.json')
+      run: |
+        npm ci --audit=false
+        npm audit --audit-level=high
+      continue-on-error: true
+    
+    # Run OWASP Dependency Check
+    - name: OWASP Dependency Check
+      uses: dependency-check/Dependency-Check_Action@main
+      with:
+        project: 'My-React-Node-App'
+        path: '.'
+        format: 'HTML'
+        args: >
+          --scan .
+          --out reports/
+          --enableRetired
+    
+    - name: Upload OWASP Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: dependency-check-report
+        path: reports/
+    
+    # Secret scanning (optional but recommended)
+    - name: Detect secrets
+      uses: zeals-co/git-secret-scan@v1
+      with:
+        secret_tokens: ${{ secrets.SECRET_TOKENS }}
