@@ -1,0 +1,41 @@
+"email": "Polydabra12@gmail.com",
+"password": "Nitin@123",
+
+Organizer
+"email": "organizer.rabada12@gmail.com",
+"password": "Nitin@123",
+
+Participants
+"email": "rachin2@gmail.com",
+"password": "Rachin@123",
+
+"email":"vk444@gmail.com"
+"password":"Virat@1234"
+
+"email":"harry32@gmail.com"
+"password":"Harry@1234"
+
+"email":"laura21@gmail.com",
+"password":"Laura@333"
+Provider
+"email": "nitinsahu911111@gmail.com",
+"password": "Watson@1234",
+
+Admin
+"email": "admin.jofra1@gmail.com",
+"password": "Jofra@123",
+
+"email": "riya123@gmail.com", "password": "Riya@123",
+
+Fapshi Test number
+671234567
+
+//clud user
+riya123@gmail.com
+Riya@123
+
+1. organizer@gmail.com
+Organizer@123
+ 
+2.provider@gmail.com
+Provider@123

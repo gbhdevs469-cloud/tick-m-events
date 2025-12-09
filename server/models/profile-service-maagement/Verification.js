@@ -1,0 +1,62 @@
+const mongoose = require('mongoose');
+
+const verificationSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    unique: true
+  },
+  emailVerified: {
+    type: Boolean,
+    default: false
+  },
+  emailOtp: String,
+  emailOtpExpires: Date,
+  whatsappVerified: {
+    type: Boolean,
+    default: false
+  },
+  whatsappOtp: String,
+  whatsappOtpExpires: Date,
+  whatsappNumber: Number,
+  identityVerified: {
+    type: Boolean,
+    default: false
+  },
+  identityDocuments: [{
+    type: {
+      type: String,
+      enum: ['passport', 'driving_license', 'national_id'],
+      required: true
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending'
+    },
+    rejectionReason: {
+      type: String,
+      default: null
+    },
+    url: String,
+    public_id: String,
+    uploadedAt: {
+      type: Date,
+      default: Date.now
+    }
+  }],
+  docCancelReason: {
+    type: String,
+  },
+  paymentVerified: {
+    type: Boolean,
+    default: false
+  },
+  lastUpdated: {
+    type: Date,
+    default: Date.now
+  }
+}, { timestamps: true });
+
+module.exports = mongoose.model('Verification', verificationSchema);

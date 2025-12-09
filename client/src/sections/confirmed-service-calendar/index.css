@@ -1,0 +1,33 @@
+.react-calendar__navigation{
+    display: none;
+}
+
+.react-calendar__month-view__days__day{
+    max-height: 200px;
+    max-width: 900px;
+}
+
+.tile-red {
+    background-color: #e53935 !important;
+    color: white !important;
+    border-radius: 50%; /* Make circle */
+    width: 2.2em !important;  /* Keep the tile roughly square */
+    height: 4em !important;
+    line-height: 2.2em !important;
+    display: inline-block !important;
+    text-align: center !important;
+    font-weight: bold !important;
+   
+}
+ 
+.tile-gold {
+    background-color: #fbc02d !important;
+    color: black !important;
+    border-radius: 50%; /* Make circle */
+    width: 2.2em !important;
+    height: 2.2em !important;
+    line-height: 2.2em !important;
+    display: inline-block !important;
+    text-align: center !important;
+    font-weight: bold !important;
+}

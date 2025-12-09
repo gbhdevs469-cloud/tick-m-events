@@ -1,0 +1,16 @@
+/* Highlight the selected dates */
+.react-calendar .highlight {
+  background-color: #006edc !important;
+  /* Primary color */
+  color: white !important;
+  font-weight: bold;
+  margin-bottom: 1px;
+}
+
+.react-calendar__tile--active{
+  /* background: #FFFFFF;
+  color: black; */
+}
+.react-calendar {
+  border: none;
+}

@@ -1,0 +1,36 @@
+const express = require('express')
+const router = express.Router()
+const authController = require("../controllers/Auth")
+const { verifyToken } = require('../middleware/VerifyToken')
+const { loginValidation } = require('../validators/authValidator')
+const validate = require('../middleware/validateRequest')
+const { getAllServiceProvider, getAllServiceCategories } = require('../controllers/search-and-select/searchSelect.controller')
+const { logoutActivity, profileUpdatedActivity } = require('../middleware/activity')
+const { profileViewsCount } = require('../controllers/User')
+
+router
+    .post("/signup", authController.signup)
+    .get("/validate-referral/:code", authController.validateReffral)
+    .patch("/:id", verifyToken, profileUpdatedActivity, authController.updateUser)
+    .get("/profile/:id", authController.getUserProfile)
+    .get("/users/:role", authController.getOrganizer)
+    .post('/login', validate(loginValidation), authController.login)
+    .patch("/users/:userId/notifications/:notifId/read", authController.markNotificationAsRead)
+    .post("/verify-reset-code", authController.verifyOtp)
+    .post("/send-reset-code", authController.sendResetCode)
+    .post('/reset-password', authController.resetPasswordWithCode)
+
+    .post("/forgot-password", authController.forgotPassword)
+    // .post("/reset-password", authController.resetPassword)
+    .get("/check-auth", verifyToken, authController.checkAuth)
+    .post('/logout', verifyToken, logoutActivity, authController.logout)
+    .get('/providers', verifyToken, getAllServiceProvider)
+    .get('/providers/service', getAllServiceCategories)
+    .put('/cover', verifyToken, authController.updateCover)
+    .put('/avatar', verifyToken, authController.updateAvatar)
+    .post("/reviews", verifyToken, authController.createReview)
+    .put("/reviews/:reviewId/reply", verifyToken, authController.addReply)
+    .get("/reviews", verifyToken, authController.getProviderReviews)
+    .patch("/profile-views/:userId", verifyToken, profileViewsCount);
+
+module.exports = router
